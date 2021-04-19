@@ -4,6 +4,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <regex>
 #include "List.h"
 class interface{
     List list;
@@ -35,6 +36,10 @@ class interface{
             return "0";
         }
         return input;
+    }
+    bool check_data(string data){
+        regex data_mask("[0123]\\d\\.[01][012]\\.[12][09]\\d\\d");
+        return regex_match(data.begin(), data.end(), data_mask);
     }
 public:
     interface():list(){}
@@ -99,7 +104,12 @@ public:
             return;
         }
         string data;
-        cout << "Введите дату совершения нарушения в произвольном формате: "; cin >> data;
+        cout << "Введите дату совершения нарушения в формате ДД.ММ.ГГГГ:  "; cin >> data;
+        if (!check_data(data)){
+            cout << "Введена неверная дата!" << endl;
+            system ("sleep 3");
+            return;
+        }
         list.add_offence(input, offense_type - 1, data);
         cout << "Правонарушение добавлено." << endl;
         system("sleep 3");

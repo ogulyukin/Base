@@ -3,6 +3,7 @@
 //
 #include <iostream>
 #include <string>
+#include <regex>
 using namespace std;
 class offence_types{
     int size;
@@ -102,7 +103,7 @@ class List {
             this->offenseList.push_front(type, data);
         }
         bool has_type(int type){
-            return offenseList.hase_type(type);//todo
+            return offenseList.hase_type(type);
         }
         friend class List;
     };
@@ -140,7 +141,12 @@ class List {
         return;
     }
     bool check_number(string number){
-        if(number.size() < 8 || number.size() > 8) return false;
+        //regex number_mask("[АВЕКМНОРСТУХ]\\d{3}[АВЕКМНОРСТУХ]{2}\\d{2}");//проблема с русскими буквами... ups!
+        regex number_mask("[ABEKMHOPCTYX]\\d{3}[ABEKMHOPCTYX]{2}\\d{2}");
+        if(!regex_match(number.begin(), number.end(), number_mask)){
+            return false;
+        }
+        //if(number.size() < 8 || number.size() > 8) return false;
         return true;
     }
     void find_car_with_offence_type(int number, Car* Root){
