@@ -5,10 +5,12 @@
 #include <iostream>
 #include <string>
 #include <regex>
-#include "List.h"
+//#include "List.h"
+#include "FileIO.h"
 class interface{
     List list;
     offence_types of_types;
+    FileIO workFile;
     bool check_choise(int max_choise, int choise){
         if (choise < 0 || choise > max_choise)
             return false;
@@ -42,7 +44,9 @@ class interface{
         return regex_match(data.begin(), data.end(), data_mask);
     }
 public:
-    interface():list(){}
+    interface():list(),workFile(){
+        workFile.readFromFile(list);
+    }
     ~interface(){};
     int print_menu(){
         int choise = 0;
@@ -161,6 +165,6 @@ public:
                     break;
             }
         }while(choise);
-
+        workFile.wrightToFile(list);
     }
 };

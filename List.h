@@ -26,22 +26,25 @@ public:
     string get_article(int i){return this->articles[i];}
     int get_size(){return this->size;}
 };
+class administrative_offense{
+    int type;
+    string data;
+    administrative_offense* pNext;
+    offence_types of_types;
+public:
+    administrative_offense(int type, string data, administrative_offense* pNext = nullptr) : type(type), data(data), pNext(pNext){}
+    ~administrative_offense(){}
+    administrative_offense(){
+        this->type = 0;
+        this->data = "01.01.1900";
+        this->pNext = nullptr;
+    }
+    string getData(){return this->data;}
+    int getType(){return this->type;}
+    administrative_offense* get_pNext(){return this->pNext;}
+    friend class offense_list;
+};
 class offense_list{
-    class administrative_offense{
-        int type;
-        string data;
-        administrative_offense* pNext;
-        offence_types of_types;
-    public:
-        administrative_offense(int type, string data, administrative_offense* pNext = nullptr) : type(type), data(data), pNext(pNext){}
-        ~administrative_offense(){}
-        administrative_offense(){
-            this->type = 0;
-            this->data = "01.01.1900";
-            this->pNext = nullptr;
-        }
-        friend class offense_list;
-    };
     administrative_offense* Head;
 public:
     offense_list(){
@@ -81,32 +84,37 @@ public:
         }
         return false;
     }
+    administrative_offense* getHead(){return this->Head;}
+};
+class Car{
+    string number;
+    offense_list offenseList;
+    Car* pLeft;
+    Car* pRight;
+public:
+    Car(string number = "0", Car* pLeft = nullptr, Car* pRight = nullptr):
+            number(number),offenseList(), pLeft(pLeft), pRight(pRight){}
+    ~Car(){}
+    void Print(){
+        cout << "Регистрационный номер: " << number << endl;
+    }
+    void Print_offense(){
+        cout << "Регистрационный номер: " << number << endl;
+        offenseList.print();
+    }
+    void add_offence(int type, string data){
+        this->offenseList.push_front(type, data);
+    }
+    bool has_type(int type){
+        return offenseList.hase_type(type);
+    }
+    string getNumber(){return this->number;}
+    offense_list& getOffenseList(){return this->offenseList;}
+    Car* get_pLeft(){return this->pLeft;}
+    Car* get_pRight(){return this->pRight;}
+    friend class List;
 };
 class List {
-    class Car{
-        string number;
-        offense_list offenseList;
-        Car* pLeft;
-        Car* pRight;
-    public:
-        Car(string number = "0", Car* pLeft = nullptr, Car* pRight = nullptr):
-        number(number),offenseList(), pLeft(pLeft), pRight(pRight){}
-        ~Car(){}
-        void Print(){
-            cout << "Регистрационный номер: " << number << endl;
-        }
-        void Print_offense(){
-            cout << "Регистрационный номер: " << number << endl;
-            offenseList.print();
-        }
-        void add_offence(int type, string data){
-            this->offenseList.push_front(type, data);
-        }
-        bool has_type(int type){
-            return offenseList.hase_type(type);
-        }
-        friend class List;
-    };
     Car* Root;
     void add_car(string number, Car* Root){
         if(number < Root->number){
@@ -214,4 +222,5 @@ public:
             return true;
         return false;
     }
+    Car* getRoot(){return this->Root;}
 };
